@@ -8,18 +8,23 @@
 	<div class="form-group">
 		<label for="join_id">아이디</label>
 		<input type="text" class="form-control" id="join_id" required name="id">
+		<small class="from-text">5~16자 사이 영소문자와 숫자로 구성</small>
 	</div>
 	<div class="form-group">
 		<label for="join_pwd">비밀번호</label>
 		<input type="password" class="form-control" id="join_pwd" required name="pwd">
+		<small class="from-text">8자 이상 영대문자와 숫자, 특수문자로 구성</small>
 	</div>
 	<div class="form-group">
 		<label for="join_pwd2">비밀번호 확인</label>
-		<input type="password" class="form-control" id="join_pwd2" required name="pwd2">
+		<input type="password" class="form-control" id="join_pwd2" required name="
+		pwd2">
+		<small class="from-text">비밀번호와 일치</small>
 	</div>
 	<div class="form-group">
 		<label for="join_name">이름</label>
 		<input type="text" class="form-control" id="join_name" required name="name">
+		<small class="from-text">2~6자 사이 한글로 구성</small>
 	</div>
 	<div class="form-group">
 		<label for="join_gender">성별</label>
@@ -43,19 +48,22 @@
 	<button type="submit" class="btn btn-primary">회원가입</button>
 </form>
 
-<form method="POST" action="/join/biz" class="join_form" id="biz">
+<form method="POST" action="/join/biz" class="join_form" id="biz" onsubmit="return biz_join();">
 	<h1 class="mt-5">BIZ 회원 회원가입</h1>
 	<div class="form-group">
 		<label for="biz_id">아이디</label>
 		<input type="text" class="form-control" id="biz_id" required name="id">
+		<small class="from-text">5~16자 사이 영소문자와 숫자로 구성</small>
 	</div>
 	<div class="form-group">
 		<label for="biz_pwd">비밀번호</label>
 		<input type="password" class="form-control" id="biz_pwd" required name="pwd">
+		<small class="from-text">8자 이상 영대문자와 숫자, 특수문자로 구성</small>
 	</div>
 	<div class="form-group">
 		<label for="biz_pwd2">비밀번호 확인</label>
 		<input type="password" class="form-control" id="biz_pwd2" required name="pwd2">
+		<small class="from-text">비밀번호와 일치</small>
 	</div>
 	<div class="form-group">
 		<label for="biz_name">상호</label>
@@ -63,11 +71,12 @@
 	</div>
 	<div class="form-group">
 		<label for="biz_number">사업자 등록번호</label>
-		<input type="text" class="form-control" id="biz_number" required name="name">
+		<input type="text" class="form-control" id="biz_number" required name="number" maxlength="12">
+		<small class="from-text">000-00-00000 형태 유지</small>
 	</div>
 	<div class="form-group">
 		<label for="biz_lv">타입</label>
-		<select class="form-control" id="biz_lv" required name="gender">
+		<select class="form-control" id="biz_lv" required name="type">
 			<option value="0">브론즈</option>
 			<option value="1">실버</option>
 			<option value="2">골드</option>

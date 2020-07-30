@@ -38,11 +38,20 @@
 			</div>
 
 			<div class="navbar-nav ml-auto">
+				<?php if(__SIGN) : ?>
+				<li class="nav-item">
+					<a class="nav-link" href="/logout">로그아웃</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#"><?= $_SESSION['user']->name ?>(<?= $_SESSION['user']->id ?>)</a>
+				</li>
+				<?php else : ?>
 				<li class="nav-item">
 					<a class="nav-link" href="/login">로그인</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/join">회원가입</a>
-				</li>		
+				</li>
+				<?php endif; ?>
 			</div>
 		</nav>

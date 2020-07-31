@@ -1,6 +1,12 @@
  /* css init */
 @charset "UTF-8";
 
+.div-wrapper {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -77,5 +83,59 @@ footer {
 
 
 .join_form {
+	display: none;
+}
+
+.popup {
+	width: 100%;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: #0007;
+	z-index: 100;
+}
+
+.popup > .popup_container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	background-color: #fff;
+}
+
+.booth_list_container {
+	width: 800px;
+	height: auto;
+	padding: 20px;
+}
+
+.booth_list_popup {
+	display: none;
+}
+
+#btn_attend_step_1 {
+	display: none;
+}
+
+#btn_attend_step_2 {
+	display: none;
+}
+
+#btn_attend_step_3 {
+	display: none;
+}
+
+.friend_popup {
+	display: none;
+}
+
+.friend_popup_container {
+	width: 500px;
+	height: auto;
+	padding: 20px;
+}
+
+#auto_reserve_btn {
 	display: none;
 }

@@ -1,3 +1,4 @@
+<script>document.querySelectorAll(".nav-link")[0].classList.add("active");</script>
 <!-- visual section -->
 		<section class="row mt-5" id="visual">
 			<h1 class="col-12">비주얼 영역</h1>

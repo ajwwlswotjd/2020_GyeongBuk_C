@@ -1,5 +1,4 @@
-const log = console.log;
-
+let boothApplyApp;
 class BoothApplyApp {
 
 	constructor(){
@@ -9,15 +8,11 @@ class BoothApplyApp {
 		this.height = this.canvas.height;
 		this.size = this.width/10;
 		this.userColor = randomRGBColor();
-		this.beforeX = null;
-		this.beforeY = null;
+		this.userType = type;
 		this.init();
 	}
 
 	init(){
-		this.ctx.textBaseline = "middle";
-		this.ctx.textAlign = 'center';
-		this.ctx.font = "12px Arial";
 		this.mapLoading();
 		this.addEvent();
 	}
@@ -30,19 +25,19 @@ class BoothApplyApp {
 
 		let x = Math.floor(e.offsetX/this.size);
 		let y = Math.floor(e.offsetY/this.size);
-		
-		if(x == 9){
+		let unreachable = 10-type;
+		if(x >= unreachable){
 			alert('선택할 수 없는 위치입니다.');
 			return;
 		}
 		this.mapLoading();
-		this.fillRect(x,y,this.userColor);
-		this.fillRect(x+1,y,this.userColor);
-		this.beforeX = x;
-		this.beforeY = y;
-
-		let txt = `(${x+1},${y+1}),(${x+2},${y+1})`;
-		document.querySelector("#info_locate").value = txt;
+		let txt = [];
+		for(let i = 0; i <= type; i++){
+			this.fillRect(x+i,y,this.userColor);
+			txt.push(`(${x+i+1},${y+1})`);
+		}
+		info_position.value = `${x+1},${y+1}`;
+		document.querySelector("#info_locate").value = txt.join(',');
 	}
 
 	mapLoading(){
@@ -63,12 +58,68 @@ class BoothApplyApp {
 		this.ctx.fillStyle = color;
 		this.ctx.fillRect(x * this.size, y * this.size, this.size,this.size);;
 	}
+
+	apply_submit(){
+		if(!this.apply_validate()) return;
+		let data = {};
+		let age = Array.from(info_age.querySelectorAll("option")).filter(x=>{return x.selected}).map(a=>{return a.value*1});
+
+		data.name = info_name.value;
+		data.price = info_price.value;
+		data.position = info_position.value;
+		data.gender = info_gender.value;
+		data.type = type;
+		data.age = JSON.stringify(age,null,0);
+		
+		$.ajax({
+			data:data,
+			url:"/booth/apply",
+			method:"POST",
+			success : this.apply_result
+		});
+	}
+
+	apply_result = (e) => {
+		let result = JSON.parse(e).result;
+		if(!result) alert("다른 부스와 겹치게 생성할 수 없습니다.");
+		else {
+			$(".booth_list_popup").fadeIn();
+		}
+	}
+
+	apply_validate(){
+		let name = info_name.value;
+		let price = info_price.value;
+		let position = info_position.value;
+		let gender = info_gender.value;
+		let age = Array.from(info_age.querySelectorAll("option")).filter(x=>{return x.selected}).map(a=>{return a.value*1});
+
+		if(name.trim() == ""){
+			alert("이름이 비어있읍니다.");
+			return false;
+		}
+		if(price.trim() == ""){
+			alert("이용료가 비어있읍니다.");
+			return false;
+		}
+		if(position.trim() == ""){
+			alert("위치를 선태케주세요.");
+			return false;
+		}
+		if(age.length <= 0){
+			alert("추천 연령대를 선태케주세요.");
+			return false;
+		}
+		return true;
+	}
+
+
 }
 
 
 window.addEventListener("load",()=>{
 
-	let boothApplyApp = new BoothApplyApp();
+	boothApplyApp = new BoothApplyApp();
 
 });
 
@@ -98,4 +149,9 @@ function reversedRGBColor(rgb){
 	// let colors = rgb.split(",").map(x=> 255 - x.replace(/[^\d+$]/g,"")*1);
 	// return `rgb(${colors[0]},${colors[1]},${colors[2]})`;
 	return `rgb(0,0,0)`;
+}
+
+function apply_submit(){
+	boothApplyApp.apply_submit();
+	return false;
 }

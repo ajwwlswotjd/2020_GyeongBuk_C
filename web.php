@@ -17,3 +17,7 @@ Route::post("login/process","UserController@login");
 Route::post("booth/apply","BoothController@apply");
 Route::post("friend/find","FriendController@find");
 Route::post("friend/reserve","FriendController@reserve");
+Route::post("booth/reserve/auto","BoothController@auto_reserve");
+
+Route::post("reserve/accept","BoothController@accept");
+Route::post("reserve/reject","BoothController@reject");

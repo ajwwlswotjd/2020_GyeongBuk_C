@@ -106,8 +106,10 @@ footer {
 
 .booth_list_container {
 	width: 800px;
-	height: auto;
 	padding: 20px;
+	height: auto;
+	max-height: 80vh;
+	overflow-y: auto;
 }
 
 .booth_list_popup {

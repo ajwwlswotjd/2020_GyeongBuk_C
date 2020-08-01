@@ -45,4 +45,36 @@ class BoothController extends MasterController {
 		echo json_encode(["result"=>true],JSON_UNESCAPED_UNICODE);
 		exit;
 	}
+
+	public function auto_reserve()
+	{
+		extract($_POST);
+		$list = json_decode($list);
+		$flag = false;
+		foreach ($list as $item) {
+			$booth_idx = $item->idx;
+			$sql = "INSERT INTO `reservation`(`idx`, `booth_idx`, `applicant_idx`, `user_idx`, `status`) VALUES (null,?,?,?,?)";
+			$user_idx = $_SESSION['user']->idx;
+			$result = DB::query($sql,[$booth_idx,$user_idx,$user_idx,1]);
+			if(!$result) $flag = true;
+		}
+		echo json_encode(["result"=>$flag],JSON_UNESCAPED_UNICODE);
+		exit;
+	}
+
+	public function accept()
+	{
+		extract($_POST);
+		$sql = "UPDATE `reservation` SET `status`= 1 WHERE `idx` = ?";
+		DB::query($sql,[$idx]);
+		exit;
+	}
+
+	public function reject()
+	{
+		extract($_POST);
+		$sql = "DELETE FROM `reservation` WHERE `idx` = ?";
+		DB::query($sql,[$idx]);
+		exit;
+	}
 }

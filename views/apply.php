@@ -1,10 +1,11 @@
+<?php use Gondr\DB; ?>
 <script src="/js/BoothApplyApp.js"></script>
 <script>document.querySelectorAll(".nav-link")[2].classList.add("active");</script>
 <div class="popup booth_list_popup">
 	<div class="popup_container booth_list_container">
 		<div class="div-wrapper">
-			<table class="table" >
-				<thead align="center">
+			<table class="table table-striped">
+				<thead align="center" class="thead-dark">
 					<tr>
 						<th scope="col" width="25%">이름</th>
 						<th scope="col" width="35%">부스</th>
@@ -14,13 +15,21 @@
 					</tr>
 				</thead>
 				<tbody align="center">
+					<?php foreach ($list as $item) : ?>
+					<?php
+						$sql = "SELECT * FROM `common_user` WHERE `idx` = ?";
+						$user = DB::fetch($sql,[$item->user_idx]);
+						$sql = "SELECT * FROM `booth` WHERE `idx` = ?";
+						$booth = DB::fetch($sql,[$item->booth_idx]);
+					?>
 					<tr>
-						<td scope="row">정재성</td>
-						<td>탑1차타워</td>
-						<td>10대</td>
-						<td>남</td>
-						<td>승인 대기</td>
+						<td scope="row"><?= htmlentities($user->name) ?></td>
+						<td><?= htmlentities($booth->name) ?></td>
+						<td><?= $user->age ?>대</td>
+						<td><?= $user->gender == "female" ? "여" : "남" ?></td>
+						<td><?= $item->status == 1 ? "참여" : "승인대기" ?></td>
 					</tr>
+					<?php endforeach; ?>
 				</tbody>
 			</table>
 		</div>

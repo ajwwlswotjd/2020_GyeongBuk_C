@@ -3,7 +3,7 @@ class BoothReserveApp {
 
 	constructor(boothList){
 		this.boothList = boothList;
-		this.unReservedBoothList = booths;
+		this.unReservedBoothList = booths.slice(0,3);
 		this.canvas = document.querySelector("#map");
 		this.ctx = this.canvas.getContext("2d");
 		this.width = this.canvas.width;
@@ -32,11 +32,28 @@ class BoothReserveApp {
 		$("#friend_close_btn").on("click", this.friend_close);
 		$("#friend_add_btn").on('click', this.friend_add);
 		$("#auto_btn").on('click', this.showAutoBooth);
+		$("#auto_reserve_btn").on("click", this.autoReserve);
+	}
+
+	autoReserve = e => {
+		let list = JSON.stringify(this.unReservedBoothList,null,0);
+		let data = {};
+		data.list = list;
+		$.ajax({
+			data:data,
+			url:"/booth/reserve/auto",
+			method:"POST",
+			success : this.autoReserveResult
+		});
+	}
+
+	autoReserveResult = e => {
+		alert("자동부스 신청이 완료되었습니다.");
+		location.reload();
 	}
 
 	showAutoBooth = e => {
-		let list = this.unReservedBoothList.slice(0,3);
-		list.forEach(x=>{
+		this.unReservedBoothList.forEach(x=>{
 			let card = this.makeAutoCard(x);
 			$('.auto_list').append(card);
 		});
